@@ -20,6 +20,7 @@ class GameScene: SKScene {
     var block2: SKSpriteNode!
     
     override func didMove(to view: SKView) {
+        
         player = SKSpriteNode(color: UIColor.blue, size: CGSize(width: 30, height: 30))
         player.position = CGPoint(x: 100, y: 100)
         player.zPosition = 10.0

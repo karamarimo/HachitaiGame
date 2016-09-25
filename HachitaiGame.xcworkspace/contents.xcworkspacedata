@@ -2,6 +2,9 @@
 <Workspace
    version = "1.0">
    <FileRef
+      location = "group:enemy.swift">
+   </FileRef>
+   <FileRef
       location = "group:HachitaiGame.xcodeproj">
    </FileRef>
    <FileRef
