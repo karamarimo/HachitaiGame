@@ -31,6 +31,8 @@ class StartScene: SKScene {
     }
     private func moveToGameScene() {
         let gameScene = GameScene()
+        gameScene.scaleMode = .aspectFill
+        gameScene.size = (self.view?.frame.size)!
         self.view?.presentScene(gameScene, transition: SKTransition.doorsOpenHorizontal(withDuration: 0.5) )
     }
 }
