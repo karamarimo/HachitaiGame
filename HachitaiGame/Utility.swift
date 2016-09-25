@@ -26,5 +26,10 @@ class Utility: NSObject {
         
         return shape
     }
-
+    
+    static func CGPointFrom(radius: CGFloat, angle: CGFloat) -> CGPoint {
+        let x = radius * cos(angle)
+        let y = radius * sin(angle)
+        return CGPoint(x: x, y: y)
+    }
 }

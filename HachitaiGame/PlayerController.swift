@@ -15,7 +15,7 @@ class PlayerControllerNode: SKSpriteNode {
     
     var player: PlayerNode?
     var startPoint: CGPoint?
-    let maxSpeed: CGFloat = 50
+    let maxInputLength: CGFloat = 50
     var nextUpdate: (()->())? = nil
     
     required init() {
@@ -43,7 +43,7 @@ class PlayerControllerNode: SKSpriteNode {
             var vec = CGVector (dx: targetPoint!.x - self.startPoint!.x, dy: targetPoint!.y - self.startPoint!.y)
             
             let length =  hypot(vec.dx, vec.dy)
-            let velocity = length < maxSpeed ? length : maxSpeed
+            let velocity = length < maxInputLength ? length : maxInputLength
             let direction = atan2(vec.dy, vec.dx)
             vec = CGVector(dx: vec.dx / length, dy: vec.dy / length )
             player.zRotation = direction

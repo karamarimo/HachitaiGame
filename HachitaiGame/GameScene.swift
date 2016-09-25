@@ -13,7 +13,7 @@ class GameScene: SKScene {
     
     let playerSpeed: CGFloat = 200.0
     
-    var enemy: CharacterNode!
+    var enemy: EnemyNode!
     
     var block: ObstacleSpriteNode!
     
@@ -37,7 +37,7 @@ class GameScene: SKScene {
         block.position = CGPoint(x: 150, y: 200)
         self.addChild(block)
         
-        enemy = CharacterNode()
+        enemy = EnemyNode()
         enemy.position = CGPoint(x: 50, y: 300)
         self.addChild(enemy)
         
