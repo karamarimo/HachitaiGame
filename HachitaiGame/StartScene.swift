@@ -9,10 +9,20 @@
 import UIKit
 import GameKit
 
+
+
 class StartScene: SKScene {
     override func didMove(to view: SKView) {
         makeView()
     }
+    
+    func canFind(target: CGPoint) -> Bool {
+        return true
+    }
+    
+//    func updateObstacle( _ objects: [ Obstacle ] ) {
+//        
+//    }
     
     private func makeView() {
         let newGameLabel = SKLabelNode(text: "START")
@@ -22,12 +32,12 @@ class StartScene: SKScene {
         newGameButton.addChild(newGameLabel)
         self.addChild(newGameButton)
         
-        
         newGameButton.setCallback {
             self.moveToGameScene()
         }
-        
-
+        // TODO: remove this later
+        // for debug
+        moveToGameScene()
     }
     private func moveToGameScene() {
         let gameScene = GameScene()
