@@ -12,11 +12,11 @@ import GameKit
 
 
 
-class EnemyNode: SKSpriteNode{
+class EnemyNode: SKSpriteNode {
     
     
     let fieldOfView = CGFloat(M_PI / 5)
-    let visionRange: CGFloat = 100.0
+    let visionRange: CGFloat = 200.0
     
     let lookAroundAnimation = SKAction.repeatForever(SKAction.sequence([
         SKAction.rotate(byAngle: CGFloat(M_PI_4), duration: 0.5),
@@ -27,8 +27,6 @@ class EnemyNode: SKSpriteNode{
 
     required init(){
         super.init(texture: nil, color: UIColor.red, size: CGSize(width:20, height:20))
-        
-        self.zPosition = 1.0
         
         let directionIndicator = Utility.makeArrow()
         self.addChild(directionIndicator)
@@ -42,7 +40,6 @@ class EnemyNode: SKSpriteNode{
         visionIndicator.strokeColor = UIColor(red: 0.2, green: 0.2, blue: 0.2, alpha: 0.4)
         visionIndicator.lineWidth = 2.0
         visionIndicator.fillColor = UIColor(red: 1.0, green: 0.3, blue: 0.3, alpha: 0.4)
-        visionIndicator.zPosition = 0.0
         self.addChild(visionIndicator)
         
         self.run(lookAroundAnimation)

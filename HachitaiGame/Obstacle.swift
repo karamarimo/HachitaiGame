@@ -11,7 +11,7 @@ import GameKit
 
 class ObstacleSpriteNode: SKSpriteNode {
     required init(rect: CGRect, texture: SKTexture?) {
-        super.init(texture: texture, color: UIColor.blue, size: rect.size)
+        super.init(texture: texture, color: UIColor.lightGray, size: rect.size)
         self.position = rect.origin
         self.physicsBody = SKPhysicsBody(rectangleOf: rect.size)
         self.physicsBody?.affectedByGravity = false

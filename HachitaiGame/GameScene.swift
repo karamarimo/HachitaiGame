@@ -32,10 +32,11 @@ class GameScene: SKScene {
 //        player.physicsBody?.affectedByGravity = false
 //        self.addChild(player)
 //        
-        let obs = CGRect(x: 300, y: 300, width: 100, height: 20)
-        block = ObstacleSpriteNode(rect: obs ,texture: nil)
+        let obsRect = CGRect(x: 300, y: 300, width: 100, height: 20)
+        block = ObstacleSpriteNode(rect: obsRect ,texture: nil)
         block.position = CGPoint(x: 150, y: 200)
         self.addChild(block)
+        
         
         enemy = EnemyNode()
         enemy.position = CGPoint(x: 50, y: 300)
@@ -44,7 +45,6 @@ class GameScene: SKScene {
         player = PlayerNode()
         self.addChild(player)
         player.position = CGPoint(x: 200, y: 50)
-        
         
         con.player = player
         self.addChild(con)

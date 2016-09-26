@@ -16,6 +16,7 @@ class PlayerNode: SKSpriteNode {
         self.physicsBody = SKPhysicsBody(rectangleOf: self.size)
         self.physicsBody?.affectedByGravity = false
         self.physicsBody?.isDynamic = true
+        self.physicsBody?.allowsRotation = false
     }
     
     required init?(coder aDecoder: NSCoder) {
