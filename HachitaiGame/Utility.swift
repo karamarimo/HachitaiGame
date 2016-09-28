@@ -20,7 +20,6 @@ class Utility: NSObject {
         directionPath.addLine(to: CGPoint(x: 0, y: length))
         
         let shape = SKShapeNode(path: directionPath)
-        shape.zRotation = -(CGFloat)(M_PI_2)
         shape.lineWidth = 1.0
         shape.strokeColor = UIColor.darkGray
         
