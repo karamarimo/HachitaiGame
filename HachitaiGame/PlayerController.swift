@@ -15,6 +15,13 @@ class PlayerControllerNode: SKSpriteNode {
     var startPoint: CGPoint?
     let maxInputLength: CGFloat = 150
     let maxSpeed: CGFloat = 250
+    let walkingAnim = SKAction.repeatForever(SKAction.animate(with:
+        [
+            SKTexture(image: #imageLiteral(resourceName: "player2")),
+            SKTexture(image: #imageLiteral(resourceName: "player3")),
+            SKTexture(image: #imageLiteral(resourceName: "player2")),
+            SKTexture(image: #imageLiteral(resourceName: "player1"))
+        ], timePerFrame: 0.03))
     
     private var velocity = CGVector.zero
     
@@ -31,6 +38,7 @@ class PlayerControllerNode: SKSpriteNode {
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         startPoint = touches.first?.location(in: self)
+        player?.run(walkingAnim)
     }
     
     func update() {
@@ -44,14 +52,14 @@ class PlayerControllerNode: SKSpriteNode {
         player.map({player in
             let touch = touches.first
             let targetPoint = touch?.location(in: self)
-            let vec = CGVector (dx: targetPoint!.x - self.startPoint!.x, dy: targetPoint!.y - self.startPoint!.y)
+            let vec = CGVector(dx: targetPoint!.x - self.startPoint!.x, dy: targetPoint!.y - self.startPoint!.y)
             
             let length =  hypot(vec.dx, vec.dy)
             let speed = maxSpeed * min(length / maxInputLength, 1)
-            let direction = atan2(vec.dy, vec.dx)
+            let direction = atan2(-vec.dx, vec.dy)
             velocity = CGVector(dx: vec.dx / length * speed, dy: vec.dy / length * speed)
             player.zRotation = direction
-            
+            player.speed = speed / maxSpeed
             
 //            self.nextUpdate = { ()->() in
 //                
@@ -68,6 +76,7 @@ class PlayerControllerNode: SKSpriteNode {
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
 //        nextUpdate = nil
         velocity = CGVector.zero
+        player?.removeAllActions()
     }
     
 }
