@@ -8,6 +8,7 @@
 
 import Foundation
 import GameKit
+import SKTUtils
 
 class PlayerControllerNode: SKSpriteNode {
     
@@ -25,7 +26,7 @@ class PlayerControllerNode: SKSpriteNode {
     
     private var velocity = CGVector.zero
     
-//    var nextUpdate: (()->())? = nil
+    //    var nextUpdate: (()->())? = nil
     
     required init() {
         super.init(texture: nil, color: UIColor.clear, size: CGSize(width: 100000, height: 10000) )
@@ -42,7 +43,7 @@ class PlayerControllerNode: SKSpriteNode {
     }
     
     func update() {
-//        nextUpdate?()
+        //        nextUpdate?()
         player.map { player in
             player.physicsBody?.velocity = velocity
         }
@@ -52,29 +53,31 @@ class PlayerControllerNode: SKSpriteNode {
         player.map({player in
             let touch = touches.first
             let targetPoint = touch?.location(in: self)
-            let vec = CGVector(dx: targetPoint!.x - self.startPoint!.x, dy: targetPoint!.y - self.startPoint!.y)
+            let diff = CGPointSubtract(targetPoint!, self.startPoint!)
             
-            let length =  hypot(vec.dx, vec.dy)
+            let length =  CGPointLength(diff)
             let speed = maxSpeed * min(length / maxInputLength, 1)
-            let direction = atan2(-vec.dx, vec.dy)
-            velocity = CGVector(dx: vec.dx / length * speed, dy: vec.dy / length * speed)
+            let direction = CGPointToAngle(diff) - CGFloat(M_PI_2)
+            velocity = CGVectorFromCGPoint(CGPointMultiplyScalar(CGPointNormalize(diff), speed))
             player.zRotation = direction
+            
+            // set the animation speed
             player.speed = speed / maxSpeed
             
-//            self.nextUpdate = { ()->() in
-//                
-//                player.position.x += vec.dx * speed / 10
-//                player.position.y += vec.dy * speed / 10
-//            
-//               
-//            }
-//        
+            //            self.nextUpdate = { ()->() in
+            //
+            //                player.position.x += vec.dx * speed / 10
+            //                player.position.y += vec.dy * speed / 10
+            //
+            //
+            //            }
+            //
         })
         
     }
     
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
-//        nextUpdate = nil
+        //        nextUpdate = nil
         velocity = CGVector.zero
         player?.removeAllActions()
     }
