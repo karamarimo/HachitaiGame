@@ -3,7 +3,7 @@
 //  HachitaiGame
 //
 //  Created by admin on 2016/09/24.
-//  Copyright © 2016年 admin. All rights reserved.
+//  Copyright © 2016 admin. All rights reserved.
 //
 
 import SpriteKit
@@ -20,7 +20,7 @@ class GameScene: SKScene {
     var player: PlayerNode!
     
     let playerController = PlayerControllerNode()
-    var enemyController: EnemyController!
+    var enemyController: EnemyManager!
     
     override func didMove(to view: SKView) {
         
@@ -43,8 +43,7 @@ class GameScene: SKScene {
         self.addChild(playerController)
         playerController.position = CGPoint(x: 50, y: 50)
         
-        enemyController = EnemyController(enemies: [enemy], player: player, physicsWorld: self.physicsWorld)
-       
+        enemyController = EnemyManager(enemies: [enemy], player: player, physicsWorld: self.physicsWorld)
     }
     
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {

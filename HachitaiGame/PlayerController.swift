@@ -40,6 +40,7 @@ class PlayerControllerNode: SKSpriteNode {
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         startPoint = touches.first?.location(in: self)
         player?.run(walkingAnim)
+        player?.speed = 0
     }
     
     func update() {

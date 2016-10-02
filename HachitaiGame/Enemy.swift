@@ -8,7 +8,7 @@
 
 import Foundation
 import GameKit
-
+import SKTUtils
 
 
 
@@ -46,7 +46,36 @@ class EnemyNode: SKSpriteNode {
     }
     
     required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        // TODO: decode properties
+        
+        super.init(coder: aDecoder)
     }
-    
+
+    public func detect(target: SKSpriteNode) -> Bool {
+        let vec = CGPointSubtract(target.position, self.position)
+        
+        // check distance
+        if CGPointLength(vec) > visionRange {
+            return false
+        }
+        
+        // check angle
+        let angle = fabs( (CGPointToAngle(vec) - self.zRotation).remainder(dividingBy: (CGFloat)(M_PI * 2)) )
+        if angle > self.fieldOfView {
+            return false
+        }
+        
+        // check obstacles
+        var unobstructed = true
+        self.scene?.physicsWorld.enumerateBodies(alongRayStart: self.position, end: target.position, using: { (body: SKPhysicsBody, point: CGPoint, normal: CGVector, stop: UnsafeMutablePointer<ObjCBool>) in
+            if let node = body.node {
+                if node !== self && node !== target {
+                    unobstructed = false
+                    stop.pointee = true
+                }
+            }
+        })
+        return unobstructed
+    }
+
 }
