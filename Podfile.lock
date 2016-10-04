@@ -1,12 +1,25 @@
 PODS:
   - SKTUtils (1.0)
+  - SwiftEventBus (2.1.0)
 
 DEPENDENCIES:
   - SKTUtils
+  - SwiftEventBus (from `https://github.com/cesarferreira/SwiftEventBus.git`, tag `2.1.1`)
+
+EXTERNAL SOURCES:
+  SwiftEventBus:
+    :git: https://github.com/cesarferreira/SwiftEventBus.git
+    :tag: 2.1.1
+
+CHECKOUT OPTIONS:
+  SwiftEventBus:
+    :git: https://github.com/cesarferreira/SwiftEventBus.git
+    :tag: 2.1.1
 
 SPEC CHECKSUMS:
   SKTUtils: 4e5be55d1e8356fb8389b205edf27f8bf1ff1ffe
+  SwiftEventBus: 03fb72b65f3ae11912dec2591567b89e5908a781
 
-PODFILE CHECKSUM: 40623994e429e2726e07385501dddb11937ffa3d
+PODFILE CHECKSUM: d878fdb7424fccb98f429d24cd63762f21d7b53e
 
 COCOAPODS: 1.0.1

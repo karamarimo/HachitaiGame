@@ -9,7 +9,7 @@
 import Foundation
 import GameKit
 import SKTUtils
-
+import SwiftEventBus
 
 
 class EnemyNode: SKSpriteNode {
@@ -17,19 +17,16 @@ class EnemyNode: SKSpriteNode {
     
     let fieldOfView = CGFloat(M_PI / 5)
     let visionRange: CGFloat = 200.0
+    let walkDistance: CGFloat = 100.0
     
-    let lookAroundAnimation = SKAction.repeatForever(SKAction.sequence([
-        SKAction.rotate(byAngle: CGFloat(M_PI_4), duration: 0.5),
-        SKAction.wait(forDuration: 1.0),
-        SKAction.rotate(byAngle: -CGFloat(M_PI_4), duration: 0.5),
-        SKAction.wait(forDuration: 1.0)
-        ]))
-
+    var lookAroundAnimation: SKAction!
+    var patrolAnimation: SKAction!
+    
     required init(){
         super.init(texture: nil, color: UIColor.red, size: CGSize(width:20, height:20))
         
-        let directionIndicator = Utility.makeArrow()
-        self.addChild(directionIndicator)
+//        let directionIndicator = Utility.makeArrow()
+//        self.addChild(directionIndicator)
         
         let fovPath = CGMutablePath()
         fovPath.move(to: CGPoint(x: 0, y: 0))
@@ -42,7 +39,28 @@ class EnemyNode: SKSpriteNode {
         visionIndicator.fillColor = UIColor(red: 1.0, green: 0.3, blue: 0.3, alpha: 0.4)
         self.addChild(visionIndicator)
         
-        self.run(lookAroundAnimation)
+        lookAroundAnimation = SKAction.sequence([
+            SKAction.rotate(byAngle: CGFloat(M_PI_4), duration: 0.25),
+            SKAction.wait(forDuration: 1.0),
+            SKAction.rotate(byAngle: -CGFloat(M_PI_2), duration: 0.5),
+            SKAction.wait(forDuration: 1.0),
+            SKAction.rotate(byAngle: CGFloat(M_PI_4), duration: 0.25),
+            SKAction.wait(forDuration: 1.0)
+            ])
+        
+        let walkAnimation = SKAction.run {
+            let vec = CGVectorFromCGPoint(CGPointMultiplyScalar(CGPointForAngle(self.zRotation), self.walkDistance))
+            self.run(SKAction.move(by: vec, duration: 3.0))
+        }
+        
+        patrolAnimation = SKAction.repeatForever(SKAction.sequence([
+            walkAnimation,
+            SKAction.wait(forDuration: 3.0),
+            lookAroundAnimation,
+            SKAction.rotate(byAngle: CGFloat(M_PI), duration: 1.0)
+            ]))
+        
+        self.run(patrolAnimation)
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -51,31 +69,37 @@ class EnemyNode: SKSpriteNode {
         super.init(coder: aDecoder)
     }
 
-    public func detect(target: SKSpriteNode) -> Bool {
-        let vec = CGPointSubtract(target.position, self.position)
-        
-        // check distance
-        if CGPointLength(vec) > visionRange {
-            return false
-        }
-        
-        // check angle
-        let angle = fabs( (CGPointToAngle(vec) - self.zRotation).remainder(dividingBy: (CGFloat)(M_PI * 2)) )
-        if angle > self.fieldOfView {
-            return false
-        }
-        
-        // check obstacles
-        var unobstructed = true
-        self.scene?.physicsWorld.enumerateBodies(alongRayStart: self.position, end: target.position, using: { (body: SKPhysicsBody, point: CGPoint, normal: CGVector, stop: UnsafeMutablePointer<ObjCBool>) in
-            if let node = body.node {
-                if node !== self && node !== target {
-                    unobstructed = false
-                    stop.pointee = true
-                }
+    public func detect(target: SKSpriteNode) {
+        let detectingPlayer = { () -> Bool in 
+            let vec = CGPointSubtract(target.position, self.position)
+            
+            // check distance
+            if CGPointLength(vec) > self.visionRange {
+                return false
             }
-        })
-        return unobstructed
+            
+            // check angle
+            let angle = fabs( (CGPointToAngle(vec) - self.zRotation).remainder(dividingBy: (CGFloat)(M_PI * 2)) )
+            if angle > self.fieldOfView {
+                return false
+            }
+            
+            // check obstacles
+            var unobstructed = true
+            self.scene?.physicsWorld.enumerateBodies(alongRayStart: self.position, end: target.position, using: { (body: SKPhysicsBody, point: CGPoint, normal: CGVector, stop: UnsafeMutablePointer<ObjCBool>) in
+                if let node = body.node {
+                    if node !== self && node !== target {
+                        unobstructed = false
+                        stop.pointee = true
+                    }
+                }
+            })
+            return unobstructed
+        }()
+        
+        if detectingPlayer {
+            SwiftEventBus.post("i see you", sender: self)
+        }
     }
 
 }
