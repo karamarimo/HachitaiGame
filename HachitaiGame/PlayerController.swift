@@ -51,7 +51,7 @@ class PlayerControllerNode: SKSpriteNode {
     }
     
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
-        player.map({player in
+        player.map {player in
             let touch = touches.first
             let targetPoint = touch?.location(in: self)
             let diff = CGPointSubtract(targetPoint!, self.startPoint!)
@@ -73,8 +73,7 @@ class PlayerControllerNode: SKSpriteNode {
             //
             //            }
             //
-        })
-        
+        }
     }
     
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {

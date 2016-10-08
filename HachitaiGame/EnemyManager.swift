@@ -9,6 +9,7 @@
 import UIKit
 import GameKit
 import SKTUtils
+import SwiftEventBus
 
 class EnemyManager {
     public var enemies: [EnemyNode] = []
@@ -22,8 +23,7 @@ class EnemyManager {
     
     
     public func update() {
-        for enemy in enemies {
-            enemy.detect(target: player!)
-        }
+        SwiftEventBus.post(GameConst.Enemy.updateVision)
+        SwiftEventBus.post(GameConst.Enemy.detect, sender: player)
     }
 }

@@ -49,7 +49,7 @@ class GameScene: SKScene {
         
         enemyController = EnemyManager(enemies: [enemy], player: player)
         
-        SwiftEventBus.onMainThread(self, name: "i see you") { (ntf: Notification!) in
+        SwiftEventBus.onMainThread(self, name: GameConst.Enemy.playerFound) { (ntf: Notification!) in
             self.restartScene()
         }
     }
@@ -66,8 +66,10 @@ class GameScene: SKScene {
     
     
     func restartScene() {
+        SwiftEventBus.post(GameConst.Game.gameSceneFinished)
         SwiftEventBus.unregister(self)
-        let newScene = GameScene(size: self.size)
+//        self.removeAllChildren()
+        let newScene = GameScene(size: self.view!.frame.size)
         self.view!.presentScene(newScene, transition: SKTransition.flipVertical(withDuration: 0.5))
     }
 }
