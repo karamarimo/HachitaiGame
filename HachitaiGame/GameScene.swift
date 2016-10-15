@@ -33,6 +33,7 @@ class GameScene: SKScene {
         let block2 = ObstacleSpriteNode(rect: CGRect(x: 250, y: 300, width: 20, height: 200), texture: nil)
         blocks.append(block2)
         for block in blocks { self.addChild(block) }
+        block1.zRotation = CGFloat(M_PI_4)
         
         
         enemy = EnemyNode()
@@ -45,12 +46,30 @@ class GameScene: SKScene {
         
         playerController.player = player
         self.addChild(playerController)
-        playerController.position = CGPoint(x: 50, y: 50)
+        playerController.anchorPoint = CGPoint.zero
+        playerController.position = CGPoint.zero
+        playerController.size = self.size
         
-        enemyController = EnemyManager(enemies: [enemy], player: player)
+        enemyController = EnemyManager(enemies: [enemy], player: player, obstacles: blocks)
         
-        SwiftEventBus.onMainThread(self, name: GameConst.Enemy.playerFound) { (ntf: Notification!) in
+        SwiftEventBus.onMainThread(self, name: GameConst.Enemy.foundPlayer) { (ntf: Notification!) in
             self.restartScene()
+        }
+        
+        // TODO: remove this
+        // for debuggig
+        let touchPositionLabel = SKLabelNode()
+        self.addChild(touchPositionLabel)
+        touchPositionLabel.position = CGPoint(x: 30, y: 30)
+        touchPositionLabel.text = "X: | Y:"
+        touchPositionLabel.fontColor = SKColor.lightGray
+        touchPositionLabel.fontName = "Arial"
+        touchPositionLabel.fontSize = 10
+        touchPositionLabel.horizontalAlignmentMode = .left
+        SwiftEventBus.onMainThread(self, name: GameConst.UI.touchPositionChanged) { (ntf: Notification!) in
+            if let point = ntf.object as? CGPoint {
+                touchPositionLabel.text = "X:\(point.x) | Y:\(point.y)"
+            }
         }
     }
     
@@ -66,7 +85,7 @@ class GameScene: SKScene {
     
     
     func restartScene() {
-        SwiftEventBus.post(GameConst.Game.gameSceneFinished)
+        SwiftEventBus.post(GameConst.Game.sceneFinished)
         SwiftEventBus.unregister(self)
 //        self.removeAllChildren()
         let newScene = GameScene(size: self.view!.frame.size)

@@ -9,6 +9,7 @@
 import Foundation
 import GameKit
 import SKTUtils
+import SwiftEventBus
 
 class PlayerControllerNode: SKSpriteNode {
     
@@ -41,6 +42,8 @@ class PlayerControllerNode: SKSpriteNode {
         startPoint = touches.first?.location(in: self)
         player?.run(walkingAnim)
         player?.speed = 0
+        // for debug
+        SwiftEventBus.post(GameConst.UI.touchPositionChanged, sender: startPoint! as AnyObject)
     }
     
     func update() {
@@ -55,6 +58,9 @@ class PlayerControllerNode: SKSpriteNode {
             let touch = touches.first
             let targetPoint = touch?.location(in: self)
             let diff = CGPointSubtract(targetPoint!, self.startPoint!)
+            
+            // for debug
+            SwiftEventBus.post(GameConst.UI.touchPositionChanged, sender: targetPoint! as AnyObject)
             
             let length =  CGPointLength(diff)
             let speed = maxSpeed * min(length / maxInputLength, 1)
