@@ -20,7 +20,7 @@ class GameScene: SKScene {
     
     var player: PlayerNode!
     
-    let playerController = PlayerControllerNode()
+    var playerController: PlayerControllerNode!
     var enemyController: EnemyManager!
     
     
@@ -50,6 +50,7 @@ class GameScene: SKScene {
         self.addChild(player)
         player.position = CGPoint(x: 50, y: 50)
         
+        playerController = PlayerControllerNode()
         playerController.player = player
         self.addChild(playerController)
         playerController.anchorPoint = CGPoint.zero

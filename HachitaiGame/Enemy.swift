@@ -30,8 +30,9 @@ class EnemyNode: SKSpriteNode {
         
         visionIndicator = SKShapeNode()
         visionIndicator.zPosition = -100.0
-        visionIndicator.strokeColor = UIColor(red: 0.2, green: 0.2, blue: 0.2, alpha: 0.4)
+        visionIndicator.strokeColor = UIColor(red: 1.0, green: 0.3, blue: 0.3, alpha: 0.2)
         visionIndicator.lineWidth = 0.0
+        visionIndicator.glowWidth = 5.0
         visionIndicator.fillColor = UIColor(red: 1.0, green: 0.3, blue: 0.3, alpha: 0.4)
         self.addChild(visionIndicator)
                 
@@ -51,6 +52,8 @@ class EnemyNode: SKSpriteNode {
             (ntf: Notification!) in
             SwiftEventBus.unregister(self)
             self.removeAllActions()
+//            self.removeAllChildren()
+            self.patrolAnimation = nil
         }
         
         attachAnimation()

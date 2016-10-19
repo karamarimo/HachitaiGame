@@ -14,17 +14,11 @@ import SwiftEventBus
 class PlayerControllerNode: SKSpriteNode {
     
     var player: PlayerNode?
-    var startPoint: CGPoint?
-    let maxInputLength: CGFloat = 150
-    let maxSpeed: CGFloat = 250
-    let walkingAnim = SKAction.repeatForever(SKAction.animate(with:
-        [
-            SKTexture(image: #imageLiteral(resourceName: "player2")),
-            SKTexture(image: #imageLiteral(resourceName: "player3")),
-            SKTexture(image: #imageLiteral(resourceName: "player2")),
-            SKTexture(image: #imageLiteral(resourceName: "player1"))
-        ], timePerFrame: 0.03))
+    var maxInputLength: CGFloat = 150
+    var maxSpeed: CGFloat = 250
     
+    private var startPoint: CGPoint?
+    private var walkingAnim: SKAction!
     private var velocity = CGVector.zero
     
     //    var nextUpdate: (()->())? = nil
@@ -32,6 +26,20 @@ class PlayerControllerNode: SKSpriteNode {
     required init() {
         super.init(texture: nil, color: UIColor.clear, size: CGSize(width: 100000, height: 10000) )
         self.isUserInteractionEnabled = true
+        
+        walkingAnim = SKAction.repeatForever(SKAction.animate(with:
+            [
+                SKTexture(image: #imageLiteral(resourceName: "player2")),
+                SKTexture(image: #imageLiteral(resourceName: "player3")),
+                SKTexture(image: #imageLiteral(resourceName: "player2")),
+                SKTexture(image: #imageLiteral(resourceName: "player1"))
+            ], timePerFrame: 0.03))
+        
+        SwiftEventBus.onMainThread(self, name: GameConst.Game.sceneFinished) { (ntf: Notification!) in
+            self.walkingAnim = nil
+            SwiftEventBus.unregister(self)
+        }
+        print("playercontroller created")
     }
     
     required init?(coder aDecoder: NSCoder) {
