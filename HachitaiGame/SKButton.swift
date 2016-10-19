@@ -24,7 +24,7 @@ class SKButton: SKSpriteNode {
         for touch in touches {
             if self.frame.contains(touch.location(in: self.scene!)) {
                 callback?()
-                print("\(self.name) pressed")
+//                print("\(self.name) pressed")
             }
         }
     }

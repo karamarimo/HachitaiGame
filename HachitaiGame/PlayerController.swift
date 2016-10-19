@@ -39,7 +39,6 @@ class PlayerControllerNode: SKSpriteNode {
             self.walkingAnim = nil
             SwiftEventBus.unregister(self)
         }
-        print("playercontroller created")
     }
     
     required init?(coder aDecoder: NSCoder) {
