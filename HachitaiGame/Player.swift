@@ -12,8 +12,8 @@ import GameKit
 class PlayerNode: SKSpriteNode {
     required init() {
         super.init(texture: SKTexture(image: #imageLiteral(resourceName: "player2")), color: UIColor.white ,size: CGSize(width: 20, height: 20))
-        self.addChild(Utility.makeArrow())
-        self.physicsBody = SKPhysicsBody(rectangleOf: self.size)
+
+        self.physicsBody = SKPhysicsBody(circleOfRadius: 10)
         self.physicsBody?.affectedByGravity = false
         self.physicsBody?.isDynamic = true
         self.physicsBody?.allowsRotation = false
@@ -21,7 +21,7 @@ class PlayerNode: SKSpriteNode {
     }
     
     required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        super.init(coder: aDecoder)
     }
     
     

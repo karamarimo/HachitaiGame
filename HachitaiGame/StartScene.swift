@@ -12,6 +12,9 @@ import GameKit
 
 
 class StartScene: SKScene {
+    
+    var newGameButton: SKButton!
+    
     override func didMove(to view: SKView) {
         makeView()
     }
@@ -26,7 +29,7 @@ class StartScene: SKScene {
     
     private func makeView() {
         let newGameLabel = SKLabelNode(text: "START")
-        let newGameButton = SKButton(color: UIColor.orange, size: CGSize(width: 100, height: 100))
+        newGameButton = SKButton(color: UIColor.orange, size: CGSize(width: 100, height: 100))
         
         newGameButton.position = CGPoint(x: self.frame.width / 2, y: self.frame.height / 2)
         newGameButton.addChild(newGameLabel)
@@ -37,9 +40,14 @@ class StartScene: SKScene {
         }
         // TODO: remove this later
         // for debug
-        moveToGameScene()
+//        moveToGameScene()
     }
     private func moveToGameScene() {
+        newGameButton.setCallback {
+            
+        }
+        newGameButton = nil
+        
         let gameScene = GameScene()
         gameScene.scaleMode = .aspectFill
         gameScene.size = (self.view?.frame.size)!

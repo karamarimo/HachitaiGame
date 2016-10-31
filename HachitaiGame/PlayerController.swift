@@ -9,21 +9,16 @@
 import Foundation
 import GameKit
 import SKTUtils
+import SwiftEventBus
 
 class PlayerControllerNode: SKSpriteNode {
     
     var player: PlayerNode?
-    var startPoint: CGPoint?
-    let maxInputLength: CGFloat = 150
-    let maxSpeed: CGFloat = 250
-    let walkingAnim = SKAction.repeatForever(SKAction.animate(with:
-        [
-            SKTexture(image: #imageLiteral(resourceName: "player2")),
-            SKTexture(image: #imageLiteral(resourceName: "player3")),
-            SKTexture(image: #imageLiteral(resourceName: "player2")),
-            SKTexture(image: #imageLiteral(resourceName: "player1"))
-        ], timePerFrame: 0.03))
+    var maxInputLength: CGFloat = 150
+    var maxSpeed: CGFloat = 250
     
+    private var startPoint: CGPoint?
+    private var walkingAnim: SKAction!
     private var velocity = CGVector.zero
     
     //    var nextUpdate: (()->())? = nil
@@ -31,6 +26,19 @@ class PlayerControllerNode: SKSpriteNode {
     required init() {
         super.init(texture: nil, color: UIColor.clear, size: CGSize(width: 100000, height: 10000) )
         self.isUserInteractionEnabled = true
+        
+        walkingAnim = SKAction.repeatForever(SKAction.animate(with:
+            [
+                SKTexture(image: #imageLiteral(resourceName: "player2")),
+                SKTexture(image: #imageLiteral(resourceName: "player3")),
+                SKTexture(image: #imageLiteral(resourceName: "player2")),
+                SKTexture(image: #imageLiteral(resourceName: "player1"))
+            ], timePerFrame: 0.03))
+        
+        SwiftEventBus.onMainThread(self, name: GameConst.Game.sceneFinished) { (ntf: Notification!) in
+            self.walkingAnim = nil
+            SwiftEventBus.unregister(self)
+        }
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -40,6 +48,9 @@ class PlayerControllerNode: SKSpriteNode {
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         startPoint = touches.first?.location(in: self)
         player?.run(walkingAnim)
+        player?.speed = 0
+        // for debug
+        SwiftEventBus.post(GameConst.UI.touchPositionChanged, sender: startPoint! as AnyObject)
     }
     
     func update() {
@@ -50,10 +61,13 @@ class PlayerControllerNode: SKSpriteNode {
     }
     
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
-        player.map({player in
+        player.map {player in
             let touch = touches.first
             let targetPoint = touch?.location(in: self)
             let diff = CGPointSubtract(targetPoint!, self.startPoint!)
+            
+            // for debug
+            SwiftEventBus.post(GameConst.UI.touchPositionChanged, sender: targetPoint! as AnyObject)
             
             let length =  CGPointLength(diff)
             let speed = maxSpeed * min(length / maxInputLength, 1)
@@ -72,8 +86,7 @@ class PlayerControllerNode: SKSpriteNode {
             //
             //            }
             //
-        })
-        
+        }
     }
     
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {

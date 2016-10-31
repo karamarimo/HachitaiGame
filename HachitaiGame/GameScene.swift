@@ -3,11 +3,12 @@
 //  HachitaiGame
 //
 //  Created by admin on 2016/09/24.
-//  Copyright © 2016年 admin. All rights reserved.
+//  Copyright © 2016 admin. All rights reserved.
 //
 
 import SpriteKit
 import GameplayKit
+import SwiftEventBus
 
 class GameScene: SKScene {
     
@@ -15,27 +16,30 @@ class GameScene: SKScene {
     
     var enemy: EnemyNode!
     
-    var block: ObstacleSpriteNode!
+    var blocks: [ObstacleSpriteNode] = []
     
     var player: PlayerNode!
     
-    let con = PlayerControllerNode()
+    var playerController: PlayerControllerNode!
+    var enemyController: EnemyManager!
+    
     
     override func didMove(to view: SKView) {
         
         self.backgroundColor = UIColor.white
-//        
-//        player = SKSpriteNode(color: UIColor.blue, size: CGSize(width: 30, height: 30))
-//        player.position = CGPoint(x: 100, y: 100)
-//        player.zPosition = 10.0
-//        player.physicsBody = SKPhysicsBody(rectangleOf: player.size)
-//        player.physicsBody?.affectedByGravity = false
-//        self.addChild(player)
-//        
-        let obsRect = CGRect(x: 300, y: 300, width: 100, height: 20)
-        block = ObstacleSpriteNode(rect: obsRect ,texture: nil)
-        block.position = CGPoint(x: 150, y: 200)
-        self.addChild(block)
+
+        let block1 = ObstacleSpriteNode(rect: CGRect(x: 200, y: 200, width: 150, height: 20), texture: nil)
+        block1.zRotation = CGFloat(M_PI_4)
+        blocks.append(block1)
+        let block2 = ObstacleSpriteNode(rect: CGRect(x: 250, y: 300, width: 20, height: 100), texture: nil)
+        block2.zRotation = CGFloat(M_PI / 3)
+        blocks.append(block2)
+        let block3 = ObstacleSpriteNode(rect: CGRect(x: 100, y: 450, width: 100, height: 20), texture: nil)
+        blocks.append(block3)
+        let block4 = ObstacleSpriteNode(rect: CGRect(x: 50, y: 400, width: 20, height: 100), texture: nil)
+        block4.zRotation = CGFloat(M_PI / 6)
+        blocks.append(block4)
+        for block in blocks { self.addChild(block) }
         
         
         enemy = EnemyNode()
@@ -44,31 +48,56 @@ class GameScene: SKScene {
         
         player = PlayerNode()
         self.addChild(player)
-        player.position = CGPoint(x: 200, y: 50)
+        player.position = CGPoint(x: 50, y: 50)
         
-        con.player = player
-        self.addChild(con)
-        con.position = CGPoint(x: 50, y: 50)
+        playerController = PlayerControllerNode()
+        playerController.player = player
+        self.addChild(playerController)
+        playerController.anchorPoint = CGPoint.zero
+        playerController.position = CGPoint.zero
+        playerController.size = self.size
         
-
-       
+        enemyController = EnemyManager(enemies: [enemy], player: player, obstacles: blocks)
+        
+        SwiftEventBus.onMainThread(self, name: GameConst.Enemy.foundPlayer) { (ntf: Notification!) in
+            self.restartScene()
+        }
+        
+        // TODO: remove this
+        // for debuggig
+        let touchPositionLabel = SKLabelNode()
+        self.addChild(touchPositionLabel)
+        touchPositionLabel.position = CGPoint(x: 30, y: 30)
+        touchPositionLabel.text = "X: | Y:"
+        touchPositionLabel.fontColor = SKColor.lightGray
+        touchPositionLabel.fontName = "Arial"
+        touchPositionLabel.fontSize = 10
+        touchPositionLabel.horizontalAlignmentMode = .left
+        SwiftEventBus.onMainThread(self, name: GameConst.UI.touchPositionChanged) { (ntf: Notification!) in
+            if let point = ntf.object as? CGPoint {
+                touchPositionLabel.text = "X:\(point.x) | Y:\(point.y)"
+            }
+        }
     }
     
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
         return
-//        let destination = touches.first!.location(in: self)
-//        let distance = hypot(player.position.x - destination.x, player.position.y - destination.y)
-//        let duration = distance / playerSpeed
-//        player.removeAction(forKey: "move")
-//        player.run(SKAction.move(to: destination, duration: TimeInterval(duration)), withKey: "move")
-//        player.zRotation = atan2((destination.y - player.position.y), (destination.x - player.position.x))
-        
     }
     
     override func update(_ currentTime: TimeInterval) {
-        // Called before each frame is rendered
-        con.update()
-//        let frame = self.frame.size
-//        player.position
+    }
+    
+    // Called right before a frame is rendered
+    override func didFinishUpdate() {
+        playerController.update()
+        enemyController.update()
+    }
+    
+    func restartScene() {
+        SwiftEventBus.post(GameConst.Game.sceneFinished)
+        SwiftEventBus.unregister(self)
+//        self.removeAllChildren()
+        let newScene = GameScene(size: self.view!.frame.size)
+        self.view!.presentScene(newScene, transition: SKTransition.flipVertical(withDuration: 0.5))
     }
 }
