@@ -10,12 +10,16 @@ import UIKit
 import GameKit
 
 class ObstacleSpriteNode: SKSpriteNode {
+    
     required init(rect: CGRect, texture: SKTexture?) {
-        super.init(texture: texture, color: UIColor.lightGray, size: rect.size)
+        super.init(texture: texture, color: UIColor.white, size: CGSize(width: 20, height: 20))
+        self.centerRect = CGRect(x: 1.0/3, y: 1.0/3, width: 1.0/3, height: 1.0/3)
         self.position = rect.origin
-        self.physicsBody = SKPhysicsBody(rectangleOf: rect.size)
+        self.physicsBody = SKPhysicsBody(rectangleOf: self.size)
         self.physicsBody?.affectedByGravity = false
         self.physicsBody?.isDynamic = false
+        self.xScale = rect.width / self.size.width
+        self.yScale = rect.height / self.size.height
     }
     
     required init?(coder aDecoder: NSCoder) {
