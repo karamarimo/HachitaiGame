@@ -15,15 +15,16 @@ import SwiftEventBus
 class EnemyNode: SKSpriteNode {
     
     
-    let fieldOfView = CGFloat(M_PI / 5)
-    let visionRange: CGFloat = 200.0
-    let walkDistance: CGFloat = 100.0
+    var fieldOfView = CGFloat(M_PI / 5)
+    var visionRange: CGFloat = 200.0
+    var walkDistance: CGFloat = 100.0
     
+    private let txt = SKTexture(imageNamed: "enemy")
     private var visionIndicator: SKShapeNode!
     private var patrolAnimation: SKAction!
     
     required init(){
-        super.init(texture: nil, color: UIColor.red, size: CGSize(width:20, height:20))
+        super.init(texture: txt, color: UIColor.white, size: CGSize(width:20, height:20))
         
 //        let directionIndicator = Utility.makeArrow()
 //        self.addChild(directionIndicator)

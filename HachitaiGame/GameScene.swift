@@ -27,16 +27,17 @@ class GameScene: SKScene {
     override func didMove(to view: SKView) {
         
         self.backgroundColor = UIColor.white
-
-        let block1 = ObstacleSpriteNode(rect: CGRect(x: 200, y: 200, width: 150, height: 20), texture: nil)
+        
+        let txt = SKTexture(imageNamed: "wall")
+        let block1 = ObstacleSpriteNode(rect: CGRect(x: 200, y: 200, width: 150, height: 20), texture: txt)
         block1.zRotation = CGFloat(M_PI_4)
         blocks.append(block1)
-        let block2 = ObstacleSpriteNode(rect: CGRect(x: 250, y: 300, width: 20, height: 100), texture: nil)
+        let block2 = ObstacleSpriteNode(rect: CGRect(x: 250, y: 300, width: 20, height: 100), texture: txt)
         block2.zRotation = CGFloat(M_PI / 3)
         blocks.append(block2)
-        let block3 = ObstacleSpriteNode(rect: CGRect(x: 100, y: 450, width: 100, height: 20), texture: nil)
+        let block3 = ObstacleSpriteNode(rect: CGRect(x: 100, y: 450, width: 100, height: 20), texture: txt)
         blocks.append(block3)
-        let block4 = ObstacleSpriteNode(rect: CGRect(x: 50, y: 400, width: 20, height: 100), texture: nil)
+        let block4 = ObstacleSpriteNode(rect: CGRect(x: 50, y: 400, width: 20, height: 100), texture: txt)
         block4.zRotation = CGFloat(M_PI / 6)
         blocks.append(block4)
         for block in blocks { self.addChild(block) }
