@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		841CB1B11DCF111300F43ACA /* GoalNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 841CB1B01DCF111300F43ACA /* GoalNode.swift */; };
+		841CB1B31DCF12E900F43ACA /* CollisionBitmask.swift in Sources */ = {isa = PBXBuildFile; fileRef = 841CB1B21DCF12E900F43ACA /* CollisionBitmask.swift */; };
 		8421CFB01D96659000E3DE04 /* SKButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8421CFAF1D96659000E3DE04 /* SKButton.swift */; };
 		8421CFB21D97971000E3DE04 /* Obstacle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8421CFB11D97971000E3DE04 /* Obstacle.swift */; };
 		8421CFB41D979C2300E3DE04 /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8421CFB31D979C2300E3DE04 /* Player.swift */; };
@@ -29,6 +31,8 @@
 		04A9638B95D54B3AF0110815 /* Pods-HachitaiGame.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HachitaiGame.release.xcconfig"; path = "Pods/Target Support Files/Pods-HachitaiGame/Pods-HachitaiGame.release.xcconfig"; sourceTree = "<group>"; };
 		69AE5CB7697343924C74C487 /* Pods-HachitaiGame.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HachitaiGame.debug.xcconfig"; path = "Pods/Target Support Files/Pods-HachitaiGame/Pods-HachitaiGame.debug.xcconfig"; sourceTree = "<group>"; };
 		70A9D225110B5E76560FE958 /* Pods_HachitaiGame.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_HachitaiGame.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		841CB1B01DCF111300F43ACA /* GoalNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GoalNode.swift; sourceTree = "<group>"; };
+		841CB1B21DCF12E900F43ACA /* CollisionBitmask.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollisionBitmask.swift; sourceTree = "<group>"; };
 		8421CFAF1D96659000E3DE04 /* SKButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SKButton.swift; sourceTree = "<group>"; };
 		8421CFB11D97971000E3DE04 /* Obstacle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Obstacle.swift; sourceTree = "<group>"; };
 		8421CFB31D979C2300E3DE04 /* Player.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Player.swift; sourceTree = "<group>"; };
@@ -130,6 +134,8 @@
 				8421CFB51D979CF300E3DE04 /* Utility.swift */,
 				8421CFB71D97B1F800E3DE04 /* PlayerController.swift */,
 				84516D661D9E43E000972825 /* EnemyManager.swift */,
+				841CB1B01DCF111300F43ACA /* GoalNode.swift */,
+				841CB1B21DCF12E900F43ACA /* CollisionBitmask.swift */,
 			);
 			name = Game;
 			sourceTree = "<group>";
@@ -265,8 +271,10 @@
 				844EB0631D9645B600E5CD0E /* GameScene.swift in Sources */,
 				AA4803AB1D977E38006DAD6D /* Enemy.swift in Sources */,
 				8421CFB41D979C2300E3DE04 /* Player.swift in Sources */,
+				841CB1B31DCF12E900F43ACA /* CollisionBitmask.swift in Sources */,
 				844EB0651D9645B600E5CD0E /* GameViewController.swift in Sources */,
 				844EB05D1D9645B600E5CD0E /* AppDelegate.swift in Sources */,
+				841CB1B11DCF111300F43ACA /* GoalNode.swift in Sources */,
 				84516D671D9E43E000972825 /* EnemyManager.swift in Sources */,
 				8421CFB81D97B1F800E3DE04 /* PlayerController.swift in Sources */,
 				84D347311D966334003EBB0B /* StartScene.swift in Sources */,

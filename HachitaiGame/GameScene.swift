@@ -10,7 +10,7 @@ import SpriteKit
 import GameplayKit
 import SwiftEventBus
 
-class GameScene: SKScene {
+class GameScene: SKScene, SKPhysicsContactDelegate {
     
     let playerSpeed: CGFloat = 200.0
     
@@ -20,6 +20,8 @@ class GameScene: SKScene {
     
     var player: PlayerNode!
     
+    var goal: GoalNode!
+    
     var playerController: PlayerControllerNode!
     var enemyController: EnemyManager!
     
@@ -27,6 +29,7 @@ class GameScene: SKScene {
     override func didMove(to view: SKView) {
         
         self.backgroundColor = UIColor.white
+        self.physicsWorld.contactDelegate = self
         
         let txt = SKTexture(imageNamed: "wall")
         let block1 = ObstacleSpriteNode(rect: CGRect(x: 200, y: 200, width: 150, height: 20), texture: txt)
@@ -64,6 +67,9 @@ class GameScene: SKScene {
             self.restartScene()
         }
         
+        goal = GoalNode(position: CGPoint(x: 300, y: 500), size: CGSize(width: 30, height: 30))
+        self.addChild(goal)
+        
         // TODO: remove this
         // for debuggig
         let touchPositionLabel = SKLabelNode()
@@ -92,6 +98,22 @@ class GameScene: SKScene {
     override func didFinishUpdate() {
         playerController.update()
         enemyController.update()
+    }
+    
+    func didBegin(_ contact: SKPhysicsContact) {
+        let cat_set: Set<UInt32> = [contact.bodyA.categoryBitMask, contact.bodyB.categoryBitMask]
+        
+        // when player reaches the goal
+        if cat_set.contains(CollisionBitmask.player)
+            && cat_set.contains(CollisionBitmask.goal) {
+            restartScene()
+        }
+        
+        // when player collides with an enemy
+        if cat_set.contains(CollisionBitmask.player)
+            && cat_set.contains(CollisionBitmask.enemy) {
+            restartScene()
+        }
     }
     
     func restartScene() {

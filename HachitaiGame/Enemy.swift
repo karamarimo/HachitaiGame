@@ -29,6 +29,12 @@ class EnemyNode: SKSpriteNode {
 //        let directionIndicator = Utility.makeArrow()
 //        self.addChild(directionIndicator)
         
+        self.physicsBody = SKPhysicsBody(circleOfRadius: 10)
+        self.physicsBody?.isDynamic = false
+        self.physicsBody?.categoryBitMask = CollisionBitmask.enemy
+        self.physicsBody?.contactTestBitMask = CollisionBitmask.player
+        self.physicsBody?.collisionBitMask = .allZeros
+        
         visionIndicator = SKShapeNode()
         visionIndicator.zPosition = -100.0
         visionIndicator.strokeColor = UIColor(red: 1.0, green: 0.3, blue: 0.3, alpha: 0.2)
@@ -315,11 +321,9 @@ class EnemyNode: SKSpriteNode {
         var unobstructed = true
         self.scene?.physicsWorld.enumerateBodies(alongRayStart: self.position, end: target.position) {
             (body: SKPhysicsBody, point: CGPoint, normal: CGVector, stop: UnsafeMutablePointer<ObjCBool>) in
-            if let node = body.node {
-                if let _ = node as? ObstacleSpriteNode {
-                    unobstructed = false
-                    stop.pointee = true
-                }
+            if body.categoryBitMask == CollisionBitmask.wall {
+                unobstructed = false
+                stop.pointee = true
             }
         }
         
