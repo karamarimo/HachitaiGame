@@ -22,6 +22,7 @@
 		844EB06D1D9645B600E5CD0E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 844EB06B1D9645B600E5CD0E /* LaunchScreen.storyboard */; };
 		84516D671D9E43E000972825 /* EnemyManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84516D661D9E43E000972825 /* EnemyManager.swift */; };
 		84B496FE1DA8A5E600161B25 /* GameConst.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84B496FD1DA8A5E600161B25 /* GameConst.swift */; };
+		84D2CA171DF31F2D00EF7925 /* ResultScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84D2CA161DF31F2D00EF7925 /* ResultScene.swift */; };
 		84D347311D966334003EBB0B /* StartScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84D347301D966334003EBB0B /* StartScene.swift */; };
 		AA4803AB1D977E38006DAD6D /* Enemy.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA4803AA1D977E38006DAD6D /* Enemy.swift */; };
 		AD1B354B26A79F5FCE0D9F72 /* Pods_HachitaiGame.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 70A9D225110B5E76560FE958 /* Pods_HachitaiGame.framework */; };
@@ -48,6 +49,7 @@
 		844EB06E1D9645B600E5CD0E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		84516D661D9E43E000972825 /* EnemyManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EnemyManager.swift; sourceTree = "<group>"; };
 		84B496FD1DA8A5E600161B25 /* GameConst.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameConst.swift; sourceTree = "<group>"; };
+		84D2CA161DF31F2D00EF7925 /* ResultScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResultScene.swift; sourceTree = "<group>"; };
 		84D347301D966334003EBB0B /* StartScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StartScene.swift; sourceTree = "<group>"; };
 		AA4803AA1D977E38006DAD6D /* Enemy.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Enemy.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -105,6 +107,7 @@
 				AA4803AC1D977E3E006DAD6D /* Game */,
 				844EB05C1D9645B600E5CD0E /* AppDelegate.swift */,
 				844EB0621D9645B600E5CD0E /* GameScene.swift */,
+				84D2CA161DF31F2D00EF7925 /* ResultScene.swift */,
 				84D347301D966334003EBB0B /* StartScene.swift */,
 				8421CFAE1D96656200E3DE04 /* UI */,
 				844EB0641D9645B600E5CD0E /* GameViewController.swift */,
@@ -170,7 +173,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0800;
-				LastUpgradeCheck = 0800;
+				LastUpgradeCheck = 0810;
 				ORGANIZATIONNAME = admin;
 				TargetAttributes = {
 					844EB0581D9645B600E5CD0E = {
@@ -278,6 +281,7 @@
 				84516D671D9E43E000972825 /* EnemyManager.swift in Sources */,
 				8421CFB81D97B1F800E3DE04 /* PlayerController.swift in Sources */,
 				84D347311D966334003EBB0B /* StartScene.swift in Sources */,
+				84D2CA171DF31F2D00EF7925 /* ResultScene.swift in Sources */,
 				84B496FE1DA8A5E600161B25 /* GameConst.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

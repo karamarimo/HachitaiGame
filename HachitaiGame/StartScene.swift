@@ -19,14 +19,6 @@ class StartScene: SKScene {
         makeView()
     }
     
-    func canFind(target: CGPoint) -> Bool {
-        return true
-    }
-    
-//    func updateObstacle( _ objects: [ Obstacle ] ) {
-//        
-//    }
-    
     private func makeView() {
         let newGameLabel = SKLabelNode(text: "START")
         newGameButton = SKButton(color: UIColor.orange, size: CGSize(width: 100, height: 100))
@@ -38,10 +30,8 @@ class StartScene: SKScene {
         newGameButton.setCallback {
             self.moveToGameScene()
         }
-        // TODO: remove this later
-        // for debug
-//        moveToGameScene()
     }
+    
     private func moveToGameScene() {
         newGameButton.setCallback {
             
