@@ -18,6 +18,8 @@ class PlayerNode: SKSpriteNode {
         self.physicsBody?.isDynamic = true
         self.physicsBody?.allowsRotation = false
         self.physicsBody?.friction = 0
+        self.physicsBody?.categoryBitMask = CollisionBitmask.player
+        self.physicsBody?.collisionBitMask = CollisionBitmask.wall
     }
     
     required init?(coder aDecoder: NSCoder) {

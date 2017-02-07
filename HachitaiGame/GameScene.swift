@@ -10,7 +10,7 @@ import SpriteKit
 import GameplayKit
 import SwiftEventBus
 
-class GameScene: SKScene {
+class GameScene: SKScene, SKPhysicsContactDelegate {
     
     let playerSpeed: CGFloat = 200.0
     
@@ -20,13 +20,19 @@ class GameScene: SKScene {
     
     var player: PlayerNode!
     
+    var goal: GoalNode!
+    
     var playerController: PlayerControllerNode!
     var enemyController: EnemyManager!
     
+    var time: TimeInterval = 0
+    var startTime: TimeInterval = 0
+    var started: Bool = false
     
     override func didMove(to view: SKView) {
         
         self.backgroundColor = UIColor.white
+        self.physicsWorld.contactDelegate = self
         
         let txt = SKTexture(imageNamed: "wall")
         let block1 = ObstacleSpriteNode(rect: CGRect(x: 200, y: 200, width: 150, height: 20), texture: txt)
@@ -64,6 +70,9 @@ class GameScene: SKScene {
             self.restartScene()
         }
         
+        goal = GoalNode(position: CGPoint(x: 300, y: 500), size: CGSize(width: 30, height: 30))
+        self.addChild(goal)
+        
         // TODO: remove this
         // for debuggig
         let touchPositionLabel = SKLabelNode()
@@ -86,6 +95,12 @@ class GameScene: SKScene {
     }
     
     override func update(_ currentTime: TimeInterval) {
+        if (started) {
+            time = currentTime - startTime
+        } else {
+            startTime = currentTime
+            started = true
+        }
     }
     
     // Called right before a frame is rendered
@@ -94,11 +109,38 @@ class GameScene: SKScene {
         enemyController.update()
     }
     
+    func didBegin(_ contact: SKPhysicsContact) {
+        let cat_set: Set<UInt32> = [contact.bodyA.categoryBitMask, contact.bodyB.categoryBitMask]
+        
+        // when player reaches the goal
+        if cat_set.contains(CollisionBitmask.player)
+            && cat_set.contains(CollisionBitmask.goal) {
+            goToResultScene()
+        }
+        
+        // when player collides with an enemy
+        if cat_set.contains(CollisionBitmask.player)
+            && cat_set.contains(CollisionBitmask.enemy) {
+            restartScene()
+        }
+    }
+    
     func restartScene() {
-        SwiftEventBus.post(GameConst.Game.sceneFinished)
-        SwiftEventBus.unregister(self)
+        cleanScene()
 //        self.removeAllChildren()
         let newScene = GameScene(size: self.view!.frame.size)
         self.view!.presentScene(newScene, transition: SKTransition.flipVertical(withDuration: 0.5))
+    }
+    
+    func goToResultScene() {
+        cleanScene()
+        let score: Int = time > 5 ? 0 : Int(round((5 - time) * 100))
+        let newScene = ResultScene(size: self.view!.frame.size, score: score)
+        self.view!.presentScene(newScene, transition: SKTransition.doorsCloseVertical(withDuration: 0.5))
+    }
+    
+    func cleanScene() {
+        SwiftEventBus.post(GameConst.Game.sceneFinished)
+        SwiftEventBus.unregister(self)
     }
 }
